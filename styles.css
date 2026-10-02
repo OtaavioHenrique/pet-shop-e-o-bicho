@@ -24,7 +24,7 @@
 .bento > .service:nth-child(5) { --reveal-delay: .28s; }
 
 .service {
-  transition: all .3s ease,
+  transition: transform .3s ease, box-shadow .3s ease,
               opacity .6s ease var(--reveal-delay, 0s),
               translate .6s ease var(--reveal-delay, 0s);
 }
@@ -63,3 +63,4 @@
   .service:hover { transform: none; }
   .floating-whatsapp { animation: none; }
 }
+
