@@ -19,23 +19,36 @@ document.querySelectorAll('[data-whatsapp]').forEach((link) => {
 const year = document.querySelector('#year');
 if (year) year.textContent = String(new Date().getFullYear());
 
-const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-if ('IntersectionObserver' in window && !motionPreference.matches) {
-  const cards = document.querySelectorAll('.reveal');
+function initScrollReveal() {
+  const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (preference.matches || !('IntersectionObserver' in window)) return;
+
+  const elements = [...document.querySelectorAll('.hero, .bento > .service')];
+  const reveal = (element) => {
+    element.classList.remove('is-pending');
+    observer.unobserve(element);
+  };
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.remove('is-pending');
-      observer.unobserve(entry.target);
+    entries.forEach(({ isIntersecting, target }) => {
+      if (isIntersecting) reveal(target);
     });
-  }, { threshold: 0.06 });
-  cards.forEach((card) => {
-    if (card.getBoundingClientRect().top > window.innerHeight) card.classList.add('is-pending');
-    observer.observe(card);
+  }, { threshold: 0.01 });
+
+  elements.forEach((element) => {
+    element.classList.add('scroll-reveal', 'is-pending');
+    element.addEventListener('focusin', () => reveal(element), { once: true });
   });
-  motionPreference.addEventListener('change', ({ matches }) => {
+
+  // Garante um estado inicial pintado, inclusive para a hero.
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (!preference.matches) elements.forEach((element) => observer.observe(element));
+  }));
+
+  preference.addEventListener('change', ({ matches }) => {
     if (!matches) return;
     observer.disconnect();
-    cards.forEach((card) => card.classList.remove('is-pending'));
+    elements.forEach((element) => element.classList.remove('is-pending'));
   });
 }
+
+initScrollReveal();

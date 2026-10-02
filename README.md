@@ -8,9 +8,8 @@ Landing page independente em HTML semântico, CSS mobile-first e JavaScript sem 
 
 - `index.html`: conteúdo real, links acessíveis e mensagens de fallback sem JS.
 - `styles.css`: tokens, layouts responsivos, contraste, foco e movimento reduzido.
-- `script.js`: mensagens por serviço e entrada suave dos cards.
+- `script.js`: mensagens por serviço, entrada da hero e cascata dos cards.
 - `assets/`: retrato ilustrativo gerado por IA em WebP, com versão menor para celular.
-- `map-placeholder.html` e `map-placeholder.css`: placeholder local do mapa.
 - `vercel.json`: headers opcionais se hospedado na Vercel; GitHub Pages ignora este arquivo.
 
 ## Uso
@@ -30,7 +29,7 @@ Não foram inventados preços, horários, depoimentos ou perfis sociais. A vacin
 
 ## Integrações
 
-Substitua o `src` do iframe em `index.html` pelo URL oficial de incorporação do Google Maps quando o pino for confirmado. Remova o atributo `sandbox` do placeholder ao integrar o Maps, que requer scripts. A CSP já permite os hosts Google Maps. Não há cidade/UF presumida a partir da sigla AFO.
+O iframe em `index.html` carrega o Google Maps por busca de Rua Santa Catarina 4079, Alta Floresta D’Oeste - RO, com `loading="lazy"`. O endereço de busca não equivale a um pino comercial verificado; substitua pelo embed oficial se necessário. A CSP permite os hosts Google Maps. A cidade foi corroborada pelos dados de endereço e telefone em https://www.florestaonline.com.br/listing/pet-shop-e-o-bicho/.
 
 Para alterar o número ou as mensagens, mantenha os links de fallback de `index.html` e o mapa de mensagens em `script.js` sincronizados. Todos os links HTTPS externos incluem `rel="noopener noreferrer"`.
 
